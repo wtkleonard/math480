@@ -7,7 +7,7 @@ specifying a payoff function. The algorithm will output
 the price of the option at time 0 as well as its complete
 price tree.
 
-Some of the designs are taken from the book Numerical
+Some of the designs are inspired by the book Numerical
 Methods for Finance with C++ by Maciej J. Capinski
 and Tomasz Zatawniak.
 
@@ -33,7 +33,7 @@ class BinomialTree:
         self.tree[n][i] = value
 
     def Display(self, precision = 1):
-        """ Display the tree given the precision """
+        """ Display the tree given the precision. """
         N = len(self.tree) - 1
         for n in range(N + 1):
             for i in range(n + 1):
@@ -51,7 +51,7 @@ class BinomialModel:
     def __init__(self, U, D, R, S0, N):
         """ Create a binomial tree model with up factor U, down
         factor D, risk-free interest rate R, initial stock price S0,
-        and number of time steps N """
+        and number of time steps N."""
         self.U = U
         self.D = D
         self.R = R
@@ -76,12 +76,12 @@ class BinomialModel:
         return (1 + self.R - self.D) / (self.U - self.D)
 
     def ComputeS(self, n, i):
-        """ Computes the stock price at node (n, i) """
+        """ Computes the stock price at node (n, i). """
         return self.S0*(self.U**i)*(self.D**(n-i))
 
 class AmericanOption:
     """ Models an American option whose payoff depends only on
-    the current stock price """
+    the current stock price. """
     def __init__(self, payoff):
         self.payoff = payoff
         
