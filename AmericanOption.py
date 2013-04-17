@@ -165,4 +165,8 @@ def main():
    put = const_put()
    display_results(put, Model)
 
+   ## Define your own American option ##
+   # your_option = AmericanOption(your_payoff)
+   # display_results(your_option, Model)
+
 main()
