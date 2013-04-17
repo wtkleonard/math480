@@ -123,20 +123,25 @@ def const_put_payoff(K):
     return put_payoff
 
 def const_call():
+    """ Constructs an Americal call option and returns an object of class
+    AmericanOption. The user inputs the strike price. """
     call_K = eval(input("Enter strike price of American call option: "))
     print()
     call_payoff = const_call_payoff(call_K)
     return AmericanOption(call_payoff)
 
 def const_put():
+    """ Constructs an Americal put option and returns an object of class
+    AmericanOption. The user inputs the strike price. """    
     put_K = eval(input("Enter strike price of American put option: "))
     print()
     put_payoff = const_call_payoff(put_K)
     return AmericanOption(put_payoff)
 
 def display_results(option, Model, precision = 1):
+    """ Displays the current price of the option priced under Model. """
     results = option.Price(Model)
-    print("The price of the option is", round(results[0], 2))
+    print("The price of the option is", round(results[0], precision))
     print("\nThe price tree of the option is:")
     results[1].Display(precision)
     print("\nThe price tree of the stock is:")
@@ -144,6 +149,8 @@ def display_results(option, Model, precision = 1):
     print()
 
 def const_model():
+    """ Creates a BinomialModel object using data inputed by the
+    user. """
     U_, D_, R_, S0_, N_ = eval(input("Enter U, D, R, S0 and N: "))
     print()
     return BinomialModel(U_, D_, R_, S0_, N_)
