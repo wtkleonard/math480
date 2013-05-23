@@ -1,0 +1,207 @@
+% /usr/local/doc/tex-inputs/latex/notes/paper.tex
+
+% An example showing how to prepare an article using AMSLaTeX.
+% Stephen G. Simpson, Fall 1995.
+% Please send any comments or questions to simpson@math.psu.edu.
+
+% Lines beginning with a percent sign are comments.  LaTeX ignores them.
+
+% Begin by declaring a document class and options.
+
+\documentclass[12pt,oneside]{amsart}
+
+% \documentclass{amsart} says to use the AMS article document class.
+% [12pt,oneside] says to use the 12pt and oneside options.
+% If you don't want these options, just say \documentstyle{amsart}.
+
+% After the document class declaration comes the preamble.
+% The preamble begins here.
+
+   % First we activate any packages that we may need.
+   %
+   % The amssymb package provides \mathbb and other
+   % math symbols.  The amsmath package provides sophisticated math
+   % constructions.  The amsthm package provides \theoremstyle and
+   % the \proof environment.
+   %
+   % The amsmath and amsthm packages are automatically activated by
+   % \documentclass{amsart}, so there is no need to activate them here.
+
+      \usepackage{amssymb}
+
+   % Next we use \newtheorem to specify our theorem-like environments
+   % (theorem, definition, etc.) and how to display and number them.
+   %
+   % Note: The \theoremstyle declarations affect the appearance of the
+   % Theorems, Definitions, etc.
+
+      \theoremstyle{plain}
+      \newtheorem{theorem}{Theorem}[section]
+      \newtheorem{lemma}[theorem]{Lemma}
+      \newtheorem{corollary}[theorem]{Corollary}
+
+      \theoremstyle{definition}
+      \newtheorem{definition}[theorem]{Definition}
+
+      \theoremstyle{remark}
+      \newtheorem{remark}[theorem]{Remark}
+
+   % The preamble is also a good place to define new commands and macros.
+   % This part of the preamble is strictly optional according to your taste.
+
+      \newcommand{\R}{{\mathbb R}}
+      \newcommand{\nil}{\varnothing}
+
+   % The following mysterious maneuver gets rid of AMS junk at the top
+   % and bottom of the first page.
+
+      \makeatletter
+      \def\@setcopyright{}
+      \def\serieslogo@{}
+      \makeatother
+
+% This ends the preamble.  We now proceed to the document itself.
+
+\begin{document}
+
+% First we specify the top matter (author, title, etc).
+%
+% Note: All of the top matter items are optional and can be omitted.
+% But you will probably want to specify at least the author and title
+% and perhaps an abstract.
+
+   % author information
+
+   % first author
+
+   \author{Ting-Kam Leonard Wong}
+   \address{University of Washington, Seattle, United States}
+   \email{wongting@uw.edu}
+
+
+   % title
+
+   \title[Real Trees]{Coding continuous functions by real trees}
+
+   % Note that the short title for running heads goes in square
+   % brackets.  This is optional.  The long title goes in curly
+   % braces.  In the long title, line breaks are indicated by \\.
+
+   % abstract (optional)
+%\begin{abstract}
+%
+%\end{abstract}
+
+   % AMS subject classifications (used in AMS journals)
+   % \subjclass{Primary 00A30; Secondary 00A22, 03E20}
+
+   % AMS keywords (used in AMS journals)
+   %\keywords{infinite, seminar}
+
+   % acknowledge support, etc
+   %\thanks{This research was partially supported by NSF grant
+   %  DOA-123456789.}
+   %\thanks{We would like to thank our colleagues for their helpful
+   %  criticism.}
+
+   % dedication
+   %\dedicatory{Dedicated to Professor Donald Knuth on the occasion
+   %  of his $100$th birthday}
+
+   % today's date, or fill in whatever date you prefer
+   \date{\today}
+
+% This ends the top matter information.
+% We can now tell LaTeX to display the top matter.
+
+   \maketitle
+
+% Having displayed the top matter, we now proceed to the body of the
+% article.
+
+% The body of the article is divided into sections.
+% Each section begins with a \section command.
+
+\section{Introduction}
+In probability, the Galton-Watson process is a well-studied object. It models the
+genealogical behaviors of a population. The population starts with a single individual.
+In the next generation, the individual produces offspring according to a probability
+distribution $\mu$ on $\{0, 1, 2, ...\}$. The offsprings then independently produce their
+own offsprings according to the same distribution. The process continues until the population
+becomes extinct (this happens with probability $1$ if ${\Bbb E} Z \leq 1$, where $Z$
+is a random variable with distribution $\mu$). Naturally, this process can be
+visualized by a (random) rooted tree. 
+
+A less obvious fact is that a finite ordered tree $T$ gives rise to a contour function
+$(C_t)_{t \geq 0}$. Assume that each edge of $T$ has length $1$. To draw this path, start
+at the root $\rho$ and ``go around'' the tree, and $C_t$ is then the distance to $\rho$.
+It is shown that if $T^{(n)}$ is a Galton-Watson tree whose offspring distribution satisfies
+${\Bbb E}Z = 1$ and ${\mathrm{Var}}(Z) = 1$ and conditioned to have $n$ vertices,
+and $C^{(n)}_t$ is the corresponding contour function, then
+\begin{eqnarray} \label{Eqn 1}
+\left(\frac{1}{\sqrt{2n}}C^{(n)}_{2t}\right)_{0 \leq t \leq 1} \overset{(d)}{\rightarrow} (e_t)_{0 \leq t \leq 1},
+\end{eqnarray}
+where $(e_t)_{t \geq 0}$ is a normalized Brownian excursion. This result suggests that
+there is a strong relationship between random trees and Brownian excursions.
+Using the concept of {\it real tree}, we can formulate the weak limit in (\ref{Eqn 1}) as a 
+limit theorem for sequences of Galton-Watson trees. Details can be found in \cite{LG}.
+
+It is interesting to see what these trees look like. In this project, we propose to write
+codes that make construct a tree that approximates the real tree representing a given
+continuous function.
+
+\section{Mathematical background}
+Let $g: [0, \infty) \rightarrow [0, \infty)$ be a continuous function with compact support
+and satisfying $g(0) = 0$. For $s, t \geq 0$, define
+\[
+m_g(s, t) = \inf_{r \in [s \wedge t, s \vee t]} g(r),
+\]
+and
+\[
+d_g(s, t) = g(s) + g(t) - 2m_g(s, t).
+\]
+It can be shown that $d_g$ defines a pseudo-metric on $[0, \infty)$. Introduce the equivalence
+relation $s \sim t$ if and only if $d_g(s, t) = 0$.
+
+\begin{definition}
+The real tree ${\mathcal T}_g$ of $g$ is define as the quotient space $[0, \infty) / \sim$. 
+Let $p_g: [0, \infty) \rightarrow {\mathcal T}_g$ be the canonical projection. We view
+$({\mathcal T}_g, d_g)$ as a rooted tree with root $\rho = p_g(0)$.
+\end{definition}
+
+We have the following approximation result.
+
+\begin{theorem} \label{Thm 1}
+Suppose $g_n$ is a sequence such that $g_n \rightarrow g$ uniformly. Then
+\[
+d_{GH}({\mathcal T}_{g_n}, {\mathcal T}_g) \rightarrow 0, \quad n \rightarrow \infty,
+\]
+where $d_{GH}$ denotes the Gromov-Hausdorff distance.
+\end{theorem}
+
+\section{Plan of project}
+Based on Theorem \ref{Thm 1} we propose write an algorithm that does the following.
+
+\begin{enumerate}
+\item The input is a continuous function $g$ satisfying the properties above. Of course
+we cannot store all the values of a continuous function. We assume, for example, that
+$g(t)$ is defined for $t$ of the form $\frac{k}{2^n}$, where $n \geq 1$ is ``large''.
+\item Fix an approximation level $n$. We replace $g$ by a function $g_n$ by linear
+interpolation.
+\item For the approximating function $g_n$, we construct the corresponding real tree ${\mathcal T}_{g_n}$.
+For a piecewise linear function, ${\mathcal T}_{g_n}$ is a tree in the classical sense.
+By Theorem \ref{Thm 1}, $T_{g_n}$ approximates ${\mathcal T}_g$ in the sense of 
+Gromov-Hasudorff distance.
+\item We plot the tree ${\mathcal T}_{g_n}$.
+\end{enumerate}
+
+\begin{thebibliography}{99}
+
+\bibitem{LG}
+     J.F. Le Gall, \emph{Random trees and applications},
+     Probability Surveys 2 (2005), 245-311.
+\end{thebibliography}
+
+% Every LaTeX document must end with \end{document}.
+
+\end{document}
